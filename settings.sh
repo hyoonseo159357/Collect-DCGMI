@@ -9,8 +9,8 @@ sudo dpkg --configure -a
 sudo apt update
 
 # DSTAT 설치 + 권한설정
-sudo apt install dstat
-chmod +x dcgmi_field.sh
+# sudo apt install dstat
+# chmod +x dcgmi_field.sh
 
 # DCGMI설치
 wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-keyring_1.0-1_all.deb
