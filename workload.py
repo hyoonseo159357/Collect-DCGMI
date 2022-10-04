@@ -101,7 +101,7 @@ epoch_dict = {}
 class TrainCallback(tf.keras.callbacks.Callback):
     def on_train_begin(self, logs=None):
         os.system("./dcgmi_field.sh")
-        os.system("./dstat.sh")
+        os.system("./dstat.sh $")
     def on_train_end(self, logs=None):
         os.system("mv dcgmi-log.txt " + file_name )
         os.system("pkill dcgmi")
