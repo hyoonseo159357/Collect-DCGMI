@@ -44,7 +44,7 @@ epochs = math.ceil(prof_point)
 optimizer = 'SGD'
 #file_name = str(model_name) + '_' + str(batch_size) + '_' +  str(epochs) + '_' +  str(args.dataset) + '_' +  str(num_data) + ".txt"
 file_name = str(model_name)+'_batchsize'+str(batch_size)+'_datasize'+str(args.dataset)+'_total_epoch'+str(epochs)+"_totaldata"+str(num_data) + ".txt"
-file_name2 = str(model_name)+'_batchsize'+str(batch_size)+'_datasize'+str(args.dataset)+'_total_epoch'+str(epochs)+"_totaldata"+str(num_data) + ".csv"
+file_name2 = 'dstat_'+str(model_name)+'_batchsize'+str(batch_size)+'_datasize'+str(args.dataset)+'_total_epoch'+str(epochs)+"_totaldata"+str(num_data) + ".csv"
 latency_filename= './'+str(model_name)+'_batchsize'+str(batch_size)+'_datasize'+str(args.dataset)+'_total_epoch'+str(epochs)+"_totaldata"+str(num_data)+'.csv'           
 
 ###################### Build Fake Dataset ######################
