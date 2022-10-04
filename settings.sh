@@ -9,7 +9,7 @@ sudo dpkg --configure -a
 sudo apt update
 
 # DSTAT 설치 + 권한설정
-# sudo apt install dstat
+sudo apt install dstat
 chmod +x dcgmi_field.sh
 
 # DCGMI설치
