@@ -100,7 +100,7 @@ model.compile(loss=tf.keras.losses.categorical_crossentropy,
 epoch_dict = {}
 class TrainCallback(tf.keras.callbacks.Callback):
     def on_train_begin(self, logs=None):
-        os.system("sudo bash ./dcgmi_field.sh")
+        os.system("sudo bash ./dcgmi_field.sh &")
         os.system("sudo basb ./dstat.sh")
     def on_train_end(self, logs=None):
         os.system("mv dcgmi-log.txt " + file_name )
