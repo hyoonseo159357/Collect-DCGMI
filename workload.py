@@ -104,9 +104,9 @@ class TrainCallback(tf.keras.callbacks.Callback):
         os.system("./dstat.sh &")
     def on_train_end(self, logs=None):
         os.system("mv dcgmi-log.txt " + file_name )
-        os.system("pkill dcgmi")
+        os.system("sudo pkill -9 -f dcgmi")
         os.system("mv dstat-log.csv " + file_name2 )
-        os.system("pkill dstat")
+        os.system("sudo pkill -9 -f dstat")
     def on_epoch_begin(self, epoch, logs=None):
         global epoch_start
         self.epoch_time_start = time.time()
