@@ -79,43 +79,33 @@ model.compile(loss=tf.keras.losses.categorical_crossentropy,
               metrics=['accuracy'])
 
 
-# epoch_dict = {}
-# class TrainCallback(tf.keras.callbacks.Callback):
-#     def on_train_begin(self, logs=None):
-#         os.system("./dcgmi_field.sh &")
-#     def on_train_end(self, logs=None):
-#         os.system("mv dcgmi-log.txt " + file_name )
-#         os.system("pkill dcgmi")
-#     def on_epoch_begin(self, epoch, logs=None):
-#         global epoch_start
-#         self.epoch_time_start = time.time()
-#         epoch_start=datetime.fromtimestamp(self.epoch_time_start).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
-#         epoch_dict[epoch] = [epoch_start]
-#     def on_epoch_end(self, epoch, logs=None):
-#         global epoch_end
-#         self.epoch_time_end = time.time()
-#         epoch_end=datetime.fromtimestamp(self.epoch_time_end).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
-#         epoch_dict[epoch].append(epoch_end)
 epoch_dict = {}
 class TrainCallback(tf.keras.callbacks.Callback):
     def on_train_begin(self, logs=None):
         os.system("./dcgmi_field.sh &")
         os.system("./dstat.sh &")
+        self.all_times = []
+        
     def on_train_end(self, logs=None):
         os.system("mv dcgmi-log.txt " + file_name_dcgm )
         os.system("sudo pkill -9 -f dcgmi")
         os.system("mv dstat-log.csv " + file_name_dstat )
         os.system("sudo pkill -9 -f dstat")
+        
     def on_epoch_begin(self, epoch, logs=None):
-        global epoch_start
+        self.epoch_times = []
         self.epoch_time_start = time.time()
-        epoch_start=datetime.fromtimestamp(self.epoch_time_start).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
-        epoch_dict[epoch] = [epoch_start]
+        
     def on_epoch_end(self, epoch, logs=None):
-        global epoch_end
         self.epoch_time_end = time.time()
-        epoch_end=datetime.fromtimestamp(self.epoch_time_end).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
-        epoch_dict[epoch].append(epoch_end)
+        self.all_times.append(self.epoch_time_end - self.epoch_time_start)
+        self.all_times.append(self.epoch_times)
+        
+    def on_train_batch_begin(self, batch, logs=None):
+        self.batch_time_start = time.time()
+        
+    def on_train_batch_end(self, batch, logs=None):
+        self.epoch_times.append(time.time() - self.batch_time_start)
 
         
 model.fit(x_train, y_train,
