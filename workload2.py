@@ -44,6 +44,7 @@ epochs = math.ceil(prof_point)
 optimizer = 'SGD'
 file_name_dcgm = str(model_name)+'_batchsize'+str(batch_size)+'_datasize'+str(args.dataset)+'_total_epoch'+str(epochs)+"_totaldata"+str(num_data) + ".txt"
 file_name_dstat = 'dstat_'+str(model_name)+'_batchsize'+str(batch_size)+'_datasize'+str(args.dataset)+'_total_epoch'+str(epochs)+"_totaldata"+str(num_data) + ".csv"
+file_name_epoch_batch_latency = 'latency_'+str(model_name)+'_batchsize'+str(batch_size)+'_datasize'+str(args.dataset)+'_total_epoch'+str(epochs)+"_totaldata"+str(num_data)
 latency_filename= './'+str(model_name)+'_batchsize'+str(batch_size)+'_datasize'+str(args.dataset)+'_total_epoch'+str(epochs)+"_totaldata"+str(num_data)+'.csv'           
 
 ###################### Build Fake Dataset ######################
@@ -91,6 +92,11 @@ class TrainCallback(tf.keras.callbacks.Callback):
         os.system("sudo pkill -9 -f dcgmi")
         os.system("mv dstat-log.csv " + file_name_dstat )
         os.system("sudo pkill -9 -f dstat")
+        
+        time_filename = f'./{file_name_epoch_batch_latency}.pickle'
+        time_file = open(time_filename, 'ab')
+        pickle.dump(self.all_times, time_file)
+        time_file.close()
         
     def on_epoch_begin(self, epoch, logs=None):
         self.epoch_times = []
