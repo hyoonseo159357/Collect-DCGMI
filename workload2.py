@@ -42,9 +42,8 @@ prof_point = args.prof_point
 batch_num = math.ceil(num_data/batch_size)
 epochs = math.ceil(prof_point)
 optimizer = 'SGD'
-#file_name = str(model_name) + '_' + str(batch_size) + '_' +  str(epochs) + '_' +  str(args.dataset) + '_' +  str(num_data) + ".txt"
-file_name = str(model_name)+'_batchsize'+str(batch_size)+'_datasize'+str(args.dataset)+'_total_epoch'+str(epochs)+"_totaldata"+str(num_data) + ".txt"
-file_name2 = 'dstat_'+str(model_name)+'_batchsize'+str(batch_size)+'_datasize'+str(args.dataset)+'_total_epoch'+str(epochs)+"_totaldata"+str(num_data) + ".csv"
+file_name_dcgm = str(model_name)+'_batchsize'+str(batch_size)+'_datasize'+str(args.dataset)+'_total_epoch'+str(epochs)+"_totaldata"+str(num_data) + ".txt"
+file_name_dstat = 'dstat_'+str(model_name)+'_batchsize'+str(batch_size)+'_datasize'+str(args.dataset)+'_total_epoch'+str(epochs)+"_totaldata"+str(num_data) + ".csv"
 latency_filename= './'+str(model_name)+'_batchsize'+str(batch_size)+'_datasize'+str(args.dataset)+'_total_epoch'+str(epochs)+"_totaldata"+str(num_data)+'.csv'           
 
 ###################### Build Fake Dataset ######################
@@ -103,9 +102,9 @@ class TrainCallback(tf.keras.callbacks.Callback):
         os.system("./dcgmi_field.sh &")
         os.system("./dstat.sh &")
     def on_train_end(self, logs=None):
-        os.system("mv dcgmi-log.txt " + file_name )
+        os.system("mv dcgmi-log.txt " + file_name_dcgm )
         os.system("sudo pkill -9 -f dcgmi")
-        os.system("mv dstat-log.csv " + file_name2 )
+        os.system("mv dstat-log.csv " + file_name_dstat )
         os.system("sudo pkill -9 -f dstat")
     def on_epoch_begin(self, epoch, logs=None):
         global epoch_start
