@@ -26,3 +26,4 @@ sudo dpkg -i libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb
 pip3 install --upgrade setuptools
 sudo -H pip3 install --upgrade pip
 pip3 install tensorflow==2.7.0
+pip3 install --upgrade protobuf==3.20.0
